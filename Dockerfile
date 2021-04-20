@@ -13,5 +13,6 @@ RUN curl -L ${BASE_URL}/${TAR_FILE} |tar xvz && \
     chmod +x /usr/bin/helm && \
     rm -rf linux-amd64
 
+COPY values_charts/* /values_charts/*
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]

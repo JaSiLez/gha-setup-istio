@@ -24,6 +24,7 @@ jobs:
         with:
           kubeconfig: "${{steps.kubeconfig.outputs.config}}"
           istio_version: '1.9.3'
+          custom_base: true
       - name: Interact with the cluster
         run: |
             sleep 60 

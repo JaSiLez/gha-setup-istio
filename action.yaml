@@ -9,6 +9,10 @@ inputs:
     description: 'Istio version to install'
     required: false
     default: '1.9.3'
+  custom_base:
+    description: 'Customize istio base charts installation with /values_chars/base.yaml file repository'
+    required: false
+    default: ''
   kubeconfig:
     description: 'Content of ~/.kube/config'
     required: true
