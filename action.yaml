@@ -1,0 +1,25 @@
+name: 'Setup K8s Istio'
+description: 'This action setup Istio on K8s'
+author: 'JaSiLez'
+branding:
+  icon: anchor
+  color: blue
+inputs:
+  istio version:
+    description: 'Istio version to install'
+    required: false
+    default: '1.9.3'
+  istio profile:
+    description: "Istio profile when installing"
+    required: false
+    default: "default"
+  istio args:
+    description: "Istio install parameters"
+    required: false
+    default: ""
+  kubeconfig:
+    description: 'Content of ~/.kube/config'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
