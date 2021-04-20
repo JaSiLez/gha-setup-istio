@@ -46,65 +46,84 @@ else
   helm upgrade -i istio-base manifests/charts/base --values /values_charts/base.yaml -n istio-system
 fi
 
-# helm upgrade -i istio-base manifests/charts/base -n istio-system
-helm upgrade -i istiod manifests/charts/istio-control/istio-discovery -n istio-system
-helm upgrade -i istio-ingress manifests/charts/gateways/istio-ingress -n istio-system
-helm upgrade -i istio-ingress manifests/charts/gateways/istio-ingress -n istio-system
-helm upgrade -i istio-egress manifests/charts/gateways/istio-egress -n istio-system
+if [ -z "$INPUT_CUSTOM_CONTROL" ]; then
+  helm upgrade -i istiod manifests/charts/istio-control/istio-discovery -n istio-system
+else
+  helm upgrade -i istiod manifests/charts/istio-control/istio-discovery --values /values_charts/istio-control.yaml -n istio-system
+fi
+
+if [ -z "$INPUT_CUSTOM_INGRESS" ]; then
+  helm upgrade -i istio-ingress manifests/charts/gateways/istio-ingress -n istio-system
+else
+  helm upgrade -i istio-ingress manifests/charts/gateways/istio-ingress --values /values_charts/istio-ingress.yaml -n istio-system
+fi
+
+if [ -z "$INPUT_CUSTOM_EGRESS" ]; then
+  helm upgrade -i istio-egress manifests/charts/gateways/istio-egress -n istio-system
+else
+  helm upgrade -i istio-egress manifests/charts/gateways/istio-egress --values /values_charts/istio-egress.yaml -n istio-system
+fi
+
+if [ -z "$INPUT_CUSTOM_BASE" ]; then
+  
+else
+   --values /values_charts/ -n istio-system
+fi
+
+if [ -z "$INPUT_CUSTOM_BASE" ]; then
+  
+else
+   --values /values_charts/ -n istio-system
+fi
+
+if [ -z "$INPUT_CUSTOM_BASE" ]; then
+  
+else
+   --values /values_charts/ -n istio-system
+fi
+
+if [ -z "$INPUT_CUSTOM_BASE" ]; then
+  
+else
+   --values /values_charts/ -n istio-system
+fi
+
+
+
+
+# View Pods
 kubectl get pods -n istio-system
-echo ====== POSIBLE FALLO ======
+echo "====== POSIBLE FALLO ======"
 kubectl get istio-io --all-namespaces -oyaml
 
 # Install Istio Integrations Selected by action input vars
 
 # CertManager
-helm upgrade -i cert-manager jetstack/cert-manager --namespace cert-manager \
-  --version v1.3.0 --set installCRDs=true
+if [ ! -z "$INPUT_ADDON_CERTMANAGER" ]; then
+  helm upgrade -i cert-manager jetstack/cert-manager --namespace cert-manager --version v1.3.0 --set installCRDs=true
+fi
 
 # Grafana
-kubectl apply -f "https://raw.githubusercontent.com/istio/istio/release-${INPUT_ISTIO_VERSION::-2}/samples/addons/grafana.yaml"
+if [ ! -z "$INPUT_ADDON_GRAFANA" ]; then
+  kubectl apply -f "https://raw.githubusercontent.com/istio/istio/release-${INPUT_ISTIO_VERSION::-2}/samples/addons/grafana.yaml"
+fi
 
+# Kiali
+if [ ! -z "$INPUT_ADDON_KIALI" ]; then
+  kubectl apply -f "https://raw.githubusercontent.com/istio/istio/release-${INPUT_ISTIO_VERSION::-2}/samples/addons/kiali.yaml"
+fi
 
+# Jaeger
+if [ ! -z "$INPUT_ADDON_JAEGER" ]; then
+  kubectl apply -f "https://raw.githubusercontent.com/istio/istio/release-${INPUT_ISTIO_VERSION::-2}/samples/addons/jaeger.yaml"
+fi
 
-# istioctl version
+# Prometheus
+if [ ! -z "$INPUT_ADDON_PROMETHEUS" ]; then
+  kubectl apply -f "https://raw.githubusercontent.com/istio/istio/release-${INPUT_ISTIO_VERSION::-2}/samples/addons/prometheus.yaml"
+fi
 
-# OLD_COMMENTED. Disable Kiali and Grafana as it is non-interactive
-#echo "ISTIO_PROFILE=${INPUT_ISTIO_PROFILE}"
-#istioctl install --set profile=${INPUT_ISTIO_PROFILE}
-
-# Install the Istio Operator on AKS
-# istioctl operator init
-
-#echo "The Istio Operator is installed into the istio-operator namespace."
-# Query the namespace
-#kubectl get all -n istio-operator --force
-
-# You should see the following components deployed:
-# NAME                                  READY   STATUS    RESTARTS   AGE
-# pod/istio-operator-6d7958b7bf-wxgdc   1/1     Running   0          2m43s
-# NAME                     TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)    AGE
-# service/istio-operator   ClusterIP   10.0.8.57    <none>        8383/TCP   2m43s
-# NAME                             READY   UP-TO-DATE   AVAILABLE   AGE
-# deployment.apps/istio-operator   1/1     1            1           2m43s
-# NAME                                        DESIRED   CURRENT   READY   AGE
-# replicaset.apps/istio-operator-6d7958b7bf   1         1         1       2m43s
-
-
-## Install Istio Components
-# View the configuration for the default Istio Configuration Profile.
-#echo See Configuration
-#echo $(istioctl profile dump default)
-
-# Customize a file called istio.aks.yaml with the following content. 
-# This file will hold the Istio Operator Spec for configuring Istio.
-
-#kubectl create ns istio-system
-# kubectl apply -f istio.aks.yaml 
-# Add a delay here so `kubectl wait` below is gated to Istio pods correctly
-#sleep 1
-
-## Validate the Istio installation
-# Wait for all Istio pods to become ready
-# TODO: This wait might not be needed 
-#kubectl wait --for=condition=Ready pods --all -n istio-system --timeout=60s
-# kubectl get all -n istio-system
+# Zipkin
+if [ ! -z "$INPUT_ADDON_ZIPKIN" ]; then
+  kubectl apply -f "https://raw.githubusercontent.com/istio/istio/release-${INPUT_ISTIO_VERSION::-2}/samples/addons/grafana.yaml"
+fi
