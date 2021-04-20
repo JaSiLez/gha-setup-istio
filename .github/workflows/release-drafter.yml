@@ -1,0 +1,22 @@
+name: TF Drafter Release
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  Release_Draft_Calc_Version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout release drafter
+        uses: actions/checkout@v2
+        with:
+          repository: release-drafter/release-drafter
+          ref: v5
+          path: .github/actions/release-drafter
+      - name: Drafts your next Release notes as Pull Requests are merged into "master"
+        uses: ./.github/actions/release-drafter
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

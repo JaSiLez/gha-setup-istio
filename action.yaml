@@ -1,0 +1,61 @@
+name: 'Setup K8s Istio'
+description: 'This action setup Istio on K8s'
+author: 'JaSiLez'
+branding:
+  icon: anchor
+  color: blue
+inputs:
+  istio_version:
+    description: 'Istio version to install'
+    required: false
+    default: '1.9.3'
+  custom_base:
+    description: 'Customize istio base charts installation with /values_chars/base.yaml file repository'
+    required: false
+    default: ''
+  custom_control:
+    description: 'Customize istio base charts installation with /values_chars/base.yaml file repository'
+    required: false
+    default: ''
+  custom_ingress:
+    description: 'Customize istio base charts installation with /values_chars/base.yaml file repository'
+    required: false
+    default: ''
+  custom_egress:
+    description: 'Customize istio base charts installation with /values_chars/base.yaml file repository'
+    required: false
+    default: ''
+  addon_certmanager:
+    description: 'Tool that automates certificate management. This can be integrated with Istio gateways to manage TLS certificates.'
+    required: false
+    default: ''
+  addon_grafana:
+    description: 'Monitoring solution that can be used to configure dashboards for Istio.'
+    required: false
+    default: ''
+  addon_kiali:
+    description: 'Customize istio base charts installation with /values_chars/base.yaml file repository'
+    required: false
+    default: ''
+  addon_jaeger:
+    description: 'OpenSource end to end distributed tracing system, allowing users to monitor and troubleshoot transactions in complex distributed systems.'
+    required: false
+    default: ''
+  addon_prometheus:
+    description: 'OpenSource monitoring system and time series database. You can use Prometheus with Istio to record metrics that track the health of Istio and of applications within the service mesh. You can visualize metrics using tools like Grafana and Kiali.'
+    required: false
+    default: ''
+  addon_zipkin:
+    description: 'Distributed tracing system. It helps gather timing data needed to troubleshoot latency problems in service architectures. Features include both the collection and lookup of this data.'
+    required: false
+    default: ''
+  kubeconfig:
+    description: 'Content of ~/.kube/config'
+    required: true
+  # istio_args:
+  #   description: "Istio install parameters"
+  #   required: false
+  #   default: ''
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

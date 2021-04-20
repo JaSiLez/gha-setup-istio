@@ -1,0 +1,23 @@
+name: PR Labeler
+on:
+  pull_request:
+    types: [opened]
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  pr-labeler:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR Labeler
+        uses: actions/checkout@v2
+        with:
+          repository: TimonVS/pr-labeler-action
+          ref: v3
+          path: .github/actions/pr-labeler
+      - name: Label PR based on branch name patterns
+        uses: ./.github/actions/pr-labeler
+        with:
+          configuration-path: .github/pr-labeler.yml # optional, .github/pr-labeler.yml is the default value
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

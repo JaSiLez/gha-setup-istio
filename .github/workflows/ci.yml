@@ -1,0 +1,45 @@
+name: Actions CI 
+on: 
+  push:
+    paths-ignore:
+      - '**.md'
+jobs:
+  actions-ci:
+    name: Create Istio Service Mesh
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Minikube
+        uses: manusa/actions-setup-minikube@v2.3.1
+        with:
+          minikube version: 'v1.19.0'
+          kubernetes version: 'v1.20.0'
+          start args: '--embed-certs'
+      - name: Get kubeconfig
+        id: kubeconfig
+        run: a="$(cat ~/.kube/config)"; a="${a//'%'/'%25'}"; a="${a//$'\n'/'%0A'}"; a="${a//$'\r'/'%0D'}"; echo "::set-output name=config::$a"
+      - name: Setup Istio on K8s
+        uses: ./ 
+        with:
+          kubeconfig: "${{steps.kubeconfig.outputs.config}}"
+          istio_version: '1.9.3'
+          custom_base: true
+          custom_control: true
+          custom_ingress: true
+          custom_egress: true
+          addon_certmanager: true
+          addon_grafana: true
+          addon_kiali: true
+          addon_jaeger: true
+          addon_prometheus: true
+          addon_zipkin: true
+      - name: Interact with the cluster
+        run: |
+            sleep 60 
+            kubectl get all --all-namespaces > kc-get-all-${{github.job}}.txt
+      - name: Upload Report Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Report
+          path: kc-get-all-${{github.job}}.txt
