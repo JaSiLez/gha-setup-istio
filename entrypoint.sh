@@ -43,7 +43,7 @@ kubectl create namespace istio-system
 if [ -z "$INPUT_CUSTOM_BASE" ]; then
   helm upgrade -i istio-base manifests/charts/base -n istio-system
 else
-  helm upgrade -i istio-base manifests/charts/base /values_charts/base.yaml -n istio-system
+  helm upgrade -i istio-base manifests/charts/base --values /values_charts/base.yaml -n istio-system
 fi
 
 # helm upgrade -i istio-base manifests/charts/base -n istio-system
