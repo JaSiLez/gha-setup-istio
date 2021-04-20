@@ -1,0 +1,50 @@
+name-template: 'v$RESOLVED_VERSION 🌈'
+tag-template: 'v$RESOLVED_VERSION'
+
+template: |
+  # What's Changed
+  $CHANGES
+  
+categories:
+  - title: '🚀🚀🚀 Breaking'
+    labels: 
+      - 'breaking'
+  - title: '🚀 New Features'
+    labels: 
+      - 'feature'
+      - 'improvement'
+  - title: '🐛 Bug or Hot Fixes'
+    labels: 
+      - 'fix'
+  - title: '🧰 Maintenance'
+    labels: 
+      - 'chore'
+      - 'refactor'
+      - 'maintenance'
+  - title: '📗 Documentation'
+    labels:
+      - 'docs'
+  - title: '👮 Security or Dependency Updates'
+    labels: 
+      - 'dependencies'
+      - 'security'
+
+version-resolver:
+  major:
+    labels:
+      - 'breaking'
+  minor:
+    labels:
+      - 'feature'
+      - 'improvement'
+  patch:
+    labels:
+      - 'fix'
+      - 'maintenance'
+      - 'docs'
+      - 'dependencies'
+      - 'security'
+      - 'refactor'
+
+exclude-labels:
+  - 'skip-changelog'

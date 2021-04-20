@@ -4,12 +4,12 @@ on:
     paths-ignore:
       - '**.md'
 jobs:
-  example:
-    name: Create Istio service mesh
+  actions-ci:
+    name: Create Istio Service Mesh
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Setup Minikube
         uses: manusa/actions-setup-minikube@v2.3.1
         with:
@@ -19,7 +19,7 @@ jobs:
       - name: Get kubeconfig
         id: kubeconfig
         run: a="$(cat ~/.kube/config)"; a="${a//'%'/'%25'}"; a="${a//$'\n'/'%0A'}"; a="${a//$'\r'/'%0D'}"; echo "::set-output name=config::$a"
-      - name: Install Istio
+      - name: Setup Istio on K8s
         uses: ./ 
         with:
           kubeconfig: "${{steps.kubeconfig.outputs.config}}"

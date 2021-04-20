@@ -11,29 +11,20 @@ Istio requires a Kubernetes cluster to run. You can use any Github Actions that 
 ### Basic
 
 ```yaml
-name: Example workflow
+name: Istio_K8s CD
 on: [push]
 jobs:
   example:
-    name: Create Istio service mesh
+    name: Create Istio Service Mesh
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
-      - name: Setup Minikube
-        uses: manusa/actions-setup-minikube@v2.3.1
-        with:
-          minikube version: 'v1.19.0'
-          kubernetes version: 'v1.18.14'
-          start args: '--embed-certs'
-      - name: Get kubeconfig
-        id: kubeconfig
-        run: a="$(cat ~/.kube/config)"; a="${a//'%'/'%25'}"; a="${a//$'\n'/'%0A'}"; a="${a//$'\r'/'%0D'}"; echo "::set-output name=config::$a"
-      - name: Install Istio
+        uses: actions/checkout@v2
+      - name: Setup Istio on K8s
         uses: JaSiLez/gha-setup-istio@v1.0.0
         with:
-          kubeconfig: "${{steps.kubeconfig.outputs.config}}"
-          istio version: '1.9.3'
+          kubeconfig: "${{ secrets.KUBECONFIG }}"
+          istio_version: '1.9.3'
       - name: Interact with the cluster
         run: kubectl get all --all-namespaces
 ```
@@ -48,10 +39,25 @@ jobs:
 
 | Parameter | Description |
 | --------- | ----------- |
-| `istio version` | Istio [version](https://github.com/istio/istio/releases) to deploy |
-| `istio args` | Istio arguments during installation |
+| `istio_version` | Istio [version](https://github.com/istio/istio/releases) to deploy |
+| `custom_base` | With true value apply values file from values_charts folder |
+| `custom_control` | With true value apply values file from values_charts folder |
+| `custom_ingress` | With true value apply values file from values_charts folder |
+| `custom_egress` | With true value apply values file from values_charts folder |
+| `addon_certmanager` | With true value apply Integrate Addon with Istio |
+| `addon_grafana` | With true value apply Integrate Addon with Istio |
+| `addon_kiali` | With true value apply Integrate Addon with Istio |
+| `addon_jaeger` | With true value apply Integrate Addon with Istio |
+| `addon_prometheus` | With true value apply Integrate Addon with Istio |
+| `addon_zipkin` | With true value apply Integrate Addon with Istio |
 
-# Contribute
+
+### What do you need Know ??
+
+We begin to create this action using Istio v1.9.3. Not accept older versions of Istio 
+
+
+## Contribute
 TODO: Explain how other users and developers can contribute to make your code better. 
 
 If you want to learn more about istio installations and Features then refer the following [guidelines](https://istio.io/latest/docs/).
@@ -60,3 +66,7 @@ You can also seek inspiration from the below references links:
 - [Istio Integrations](https://istio.io/latest/docs/ops/integrations/)
 - [Setup Minikube GitHub Action](https://github.com/manusa/actions-setup-minikube) 
 - [Visual Studio Code](https://github.com/Microsoft/vscode)
+
+## License
+
+The scripts and documentation in this project are released under the [GNU GPL v3](./LICENSE) license.
