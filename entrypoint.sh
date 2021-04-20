@@ -33,9 +33,8 @@ kubectl get pods --all-namespaces
 #############################################################
 # Download and install Istio
 #############################################################
-
-# curl -L https://istio.io/downloadIstio | ISTIO_VERSION=${INPUT_ISTIO_VERSION} sh -
-# export PATH="$PATH:/github/workspace/istio-${INPUT_ISTIO_VERSION}/bin"
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
 curl -L https://istio.io/downloadIstio | ISTIO_VERSION=${INPUT_ISTIO_VERSION} TARGET_ARCH=x86_64 sh -
 cd istio-${INPUT_ISTIO_VERSION}
 kubectl create namespace istio-system
@@ -45,7 +44,17 @@ helm upgrade -i istio-ingress manifests/charts/gateways/istio-ingress -n istio-s
 helm upgrade -i istio-ingress manifests/charts/gateways/istio-ingress -n istio-system
 helm upgrade -i istio-egress manifests/charts/gateways/istio-egress -n istio-system
 kubectl get pods -n istio-system
+echo ====== POSIBLE FALLO ======
 kubectl get istio-io --all-namespaces -oyaml
+
+# Install Istio Integrations Selected by action input vars
+
+# CertManager
+helm upgrade --install cert-manager jetstack/cert-manager --namespace cert-manager \
+  --create-namespace --version v1.3.0 --set installCRDs=true
+
+# Grafana
+kubectl apply -f "https://raw.githubusercontent.com/istio/istio/release-${INPUT_ISTIO_VERSION::-2}/samples/addons/grafana.yaml"
 
 
 

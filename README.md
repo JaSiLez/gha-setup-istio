@@ -49,7 +49,14 @@ jobs:
 | Parameter | Description |
 | --------- | ----------- |
 | `istio version` | Istio [version](https://github.com/istio/istio/releases) to deploy |
-| `istio profile` | Istio profile during installation |
 | `istio args` | Istio arguments during installation |
 
+# Contribute
+TODO: Explain how other users and developers can contribute to make your code better. 
 
+If you want to learn more about istio installations and Features then refer the following [guidelines](https://istio.io/latest/docs/).
+You can also seek inspiration from the below references links:
+- [Istio Charts](https://github.com/istio/istio/tree/master/manifests/charts)
+- [Istio Integrations](https://istio.io/latest/docs/ops/integrations/)
+- [Setup Minikube GitHub Action](https://github.com/manusa/actions-setup-minikube) 
+- [Visual Studio Code](https://github.com/Microsoft/vscode)

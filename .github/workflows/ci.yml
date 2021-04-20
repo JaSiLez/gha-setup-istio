@@ -23,7 +23,7 @@ jobs:
         uses: ./ 
         with:
           kubeconfig: "${{steps.kubeconfig.outputs.config}}"
-          istio version: '1.9.3'
+          istio_version: '1.9.3'
       - name: Interact with the cluster
         run: |
             sleep 60 

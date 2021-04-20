@@ -5,21 +5,17 @@ branding:
   icon: anchor
   color: blue
 inputs:
-  # istio version:
-  #   description: 'Istio version to install'
-  #   required: false
-  #   default: '1.9.3'
-  # istio profile:
-  #   description: "Istio profile when installing"
-  #   required: false
-  #   default: "default"
-  # istio args:
-  #   description: "Istio install parameters"
-  #   required: false
-  #   default: ""
+  istio_version:
+    description: 'Istio version to install'
+    required: false
+    default: '1.9.3'
   kubeconfig:
     description: 'Content of ~/.kube/config'
     required: true
+  # istio_args:
+  #   description: "Istio install parameters"
+  #   required: false
+  #   default: ''
 runs:
   using: 'docker'
   image: 'Dockerfile'
