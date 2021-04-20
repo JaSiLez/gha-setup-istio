@@ -23,8 +23,19 @@ jobs:
       - name: Setup Istio on K8s
         uses: JaSiLez/gha-setup-istio@v1.0.0
         with:
-          kubeconfig: "${{ secrets.KUBECONFIG }}"
-          istio_version: '1.9.3'
+          kubeconfig: "${{secrets.KUBECONFIG}}"
+          ## Uncomment to customize installations
+          # istio_version: '1.9.3'
+          # custom_base: true
+          # custom_control: true
+          # custom_ingress: true
+          # custom_egress: true
+          # addon_certmanager: true
+          # addon_grafana: true
+          # addon_kiali: true
+          # addon_jaeger: true
+          # addon_prometheus: true
+          # addon_zipkin: true
       - name: Interact with the cluster
         run: kubectl get all --all-namespaces
 ```
