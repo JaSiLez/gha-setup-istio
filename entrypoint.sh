@@ -64,33 +64,6 @@ else
   helm upgrade -i istio-egress manifests/charts/gateways/istio-egress --values /values_charts/istio-egress.yaml -n istio-system
 fi
 
-if [ -z "$INPUT_CUSTOM_BASE" ]; then
-  
-else
-   --values /values_charts/ -n istio-system
-fi
-
-if [ -z "$INPUT_CUSTOM_BASE" ]; then
-  
-else
-   --values /values_charts/ -n istio-system
-fi
-
-if [ -z "$INPUT_CUSTOM_BASE" ]; then
-  
-else
-   --values /values_charts/ -n istio-system
-fi
-
-if [ -z "$INPUT_CUSTOM_BASE" ]; then
-  
-else
-   --values /values_charts/ -n istio-system
-fi
-
-
-
-
 # View Pods
 kubectl get pods -n istio-system
 echo "====== POSIBLE FALLO ======"
