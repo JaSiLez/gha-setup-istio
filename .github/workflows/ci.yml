@@ -39,7 +39,7 @@ jobs:
             sleep 60 
             kubectl get all --all-namespaces > kc-get-all-${{github.job}}.txt
       - name: Upload Report Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Report
           path: kc-get-all-${{github.job}}.txt
